@@ -12,5 +12,5 @@ router.post('/logout', logout)
 
 router.get('/profile', authRequired, profile)
 
-export { router };
+export default router
 
