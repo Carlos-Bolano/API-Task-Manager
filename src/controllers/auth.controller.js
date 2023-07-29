@@ -1,15 +1,24 @@
 import User from '../models/user.model.js'
 import bcrypt from 'bcryptjs'
 import { createAccessToken } from '../libs/jwt.js'
+import jwt from 'jsonwebtoken'
+import { TOKEN_SECRET } from '../config.js'
 
 export const register = async (req, res) => {
-    const { email, password, username } = req.body
+    const { email, password, username, ocupation } = req.body
 
     try {
+        const userFound = await User.findOne({ email })
+        if (userFound) return res.status(400).json(['the email alredy in use'])
+
+        const usernameFound = await User.findOne({ username })
+        if (usernameFound) return res.status(400).json(['the username alredy in use'])
+
         const passwordHash = await bcrypt.hash(password, 10)
 
         const newUser = new User({
             username,
+            ocupation,
             email,
             password: passwordHash
         })
@@ -20,6 +29,7 @@ export const register = async (req, res) => {
         res.json({
             id: userSaved.id,
             username: userSaved.username,
+            ocupation: userSaved.ocupation,
             email: userSaved.email,
             createdAt: userSaved.createdAt,
             updatedAt: userSaved.updatedAt
@@ -34,11 +44,10 @@ export const login = async (req, res) => {
 
     try {
         const userFound = await User.findOne({ email })
-        if (!userFound) return res.status(400).json({ message: "User no found" })
+        if (!userFound) return res.status(400).json(["User no found"])
 
         const isMatch = await bcrypt.compare(password, userFound.password)
-        if (!isMatch) return res.status(400).json({ message: "Password no valid" })
-
+        if (!isMatch) return res.status(400).json(["Password no valid"])
 
         const token = await createAccessToken({ id: userFound.id })
         res.cookie("token", token)
@@ -69,6 +78,7 @@ export const profile = async (req, res) => {
         return res.json({
             id: userFound.id,
             username: userFound.username,
+            ocupation: userFound.ocupation,
             email: userFound.email,
             createdAt: userFound.createdAt,
             updatedAt: userFound.updatedAt
@@ -78,4 +88,22 @@ export const profile = async (req, res) => {
     }
 }
 
+export const verifyToken = async (req, res) => {
+    const { token } = req.cookies
+    if (!token) return res.status(401).json({ message: "Unauthorized" })
 
+    jwt.verify(token, TOKEN_SECRET, async (err, decoded) => {
+        if (err) return res.status(401).json({ message: "Unauthorized" })
+
+        const userFound = await User.findById(decoded.id)
+        if (!userFound) return res.status(401).json({ message: "Unauthorized" })
+
+        return res.json({
+            id: userFound._id,
+            username: userFound.username,
+            ocupation: userFound.ocupation,
+            email: userFound.email
+        })
+    })
+
+}

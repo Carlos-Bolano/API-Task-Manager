@@ -6,6 +6,11 @@ const userSchemal = new mongoose.Schema({
         require: true,
         trim: true
     },
+    ocupation: {
+        type: String,
+        require: true,
+        trim: true
+    },
     email: {
         type: String,
         require: true,
