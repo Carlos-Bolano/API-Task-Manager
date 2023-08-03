@@ -9,10 +9,10 @@ export const register = async (req, res) => {
 
     try {
         const userFound = await User.findOne({ email })
-        if (userFound) return res.status(400).json(['the email alredy in use'])
+        if (userFound) return res.status(400).json(['Correo ya esta en uso'])
 
         const usernameFound = await User.findOne({ username })
-        if (usernameFound) return res.status(400).json(['the username alredy in use'])
+        if (usernameFound) return res.status(400).json(['nombre de usuario ya esta en uso'])
 
         const passwordHash = await bcrypt.hash(password, 10)
 
@@ -44,10 +44,10 @@ export const login = async (req, res) => {
 
     try {
         const userFound = await User.findOne({ email })
-        if (!userFound) return res.status(400).json(["User no found"])
+        if (!userFound) return res.status(400).json(["Usuario no encontrado"])
 
         const isMatch = await bcrypt.compare(password, userFound.password)
-        if (!isMatch) return res.status(400).json(["Password no valid"])
+        if (!isMatch) return res.status(400).json(["correo o contraseña incorrecta"])
 
         const token = await createAccessToken({ id: userFound.id })
         res.cookie("token", token)
@@ -73,7 +73,7 @@ export const profile = async (req, res) => {
     try {
         const id = req.user.id
         const userFound = await User.findById(id)
-        if (!userFound) return res.status(400).json({ message: "User no found" })
+        if (!userFound) return res.status(400).json({ message: "Usuario no encontrado" })
 
         return res.json({
             id: userFound.id,
@@ -90,13 +90,13 @@ export const profile = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
     const { token } = req.cookies
-    if (!token) return res.status(401).json({ message: "Unauthorized" })
+    if (!token) return res.status(401).json({ message: "No autorizado" })
 
     jwt.verify(token, TOKEN_SECRET, async (err, decoded) => {
-        if (err) return res.status(401).json({ message: "Unauthorized" })
+        if (err) return res.status(401).json({ message: "No autorizado" })
 
         const userFound = await User.findById(decoded.id)
-        if (!userFound) return res.status(401).json({ message: "Unauthorized" })
+        if (!userFound) return res.status(401).json({ message: "No autorizado" })
 
         return res.json({
             id: userFound._id,

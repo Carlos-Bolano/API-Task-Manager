@@ -13,13 +13,13 @@ const taskSchemal = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    Date: {
+    date: {
         type: Date,
         default: Date.now
     },
     category: {
         type: String,
-        default: 'Task'
+        default: 'Tarea'
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
