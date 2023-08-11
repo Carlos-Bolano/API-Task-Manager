@@ -91,6 +91,7 @@ export const profile = async (req, res) => {
 
 export const verifyToken = async (req, res) => {
     const { token } = req.cookies
+   try {
     if (!token) return res.status(401).json({ message: "No autorizado" })
 
     jwt.verify(token, TOKEN_SECRET, async (err, decoded) => {
@@ -106,5 +107,7 @@ export const verifyToken = async (req, res) => {
             email: userFound.email
         })
     })
-
+   } catch (error) {
+    console.log(error)
+   }
 }
