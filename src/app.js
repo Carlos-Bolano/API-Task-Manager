@@ -5,11 +5,12 @@ import cors from 'cors'
 
 import authRouter from './routes/auth.routes.js'
 import tasksRouter from './routes/tasks.routes.js'
+import { FRONTEND_URI } from "./config.js";
 
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: FRONTEND_URI || 'http://localhost:3000',
     credentials: true
 }))
 app.use(morgan('dev'))
