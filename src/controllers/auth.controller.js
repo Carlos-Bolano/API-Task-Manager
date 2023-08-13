@@ -25,7 +25,7 @@ export const register = async (req, res) => {
 
         const userSaved = await newUser.save()
         const token = await createAccessToken({ id: userSaved.id })
-        res.cookie("token", token)
+        res.cookie("token", token, { secure: true, httpOnly: true });
         res.json({
             id: userSaved.id,
             username: userSaved.username,
@@ -50,7 +50,7 @@ export const login = async (req, res) => {
         if (!isMatch) return res.status(400).json(["correo o contraseña incorrecta"])
 
         const token = await createAccessToken({ id: userFound.id })
-        res.cookie("token", token)
+        res.cookie("token", token, { secure: true, httpOnly: true });
         res.json({
             id: userFound.id,
             username: userFound.username,
