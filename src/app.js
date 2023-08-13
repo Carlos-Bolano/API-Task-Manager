@@ -10,7 +10,7 @@ import { FRONTEND_URI } from "./config.js";
 const app = express()
 
 app.use(cors({
-    origin: true,
+    origin: 'https://gestor-de-tareas.vercel.app',
     credentials: true
 }))
 app.use(morgan('dev'))
