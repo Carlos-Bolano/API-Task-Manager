@@ -10,6 +10,7 @@ import { FRONTEND_URI } from "./config.js";
 const app = express()
 
 app.use(cors({
+    origin: true,
     credentials: true
 }))
 app.use(morgan('dev'))
