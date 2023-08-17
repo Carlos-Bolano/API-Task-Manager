@@ -7,10 +7,11 @@ Este es el backend de la aplicación gestor de tareas desarrollado con Node.js, 
 [![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white)](https://jwt.io/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Cors](https://img.shields.io/badge/Cors-2.8.5?style=for-the-badge&logo=cors&logoColor=white)](https://expressjs.com/en/resources/middleware/cors.html)
-[Bcrypt.js](https://www.npmjs.com/package/bcryptjs)
-[Cookie-parser](https://www.npmjs.com/package/cookie-parser)
-[Zod](https://www.npmjs.com/package/zod)
+- [Cors](https://expressjs.com/en/resources/middleware/cors.html) (Versión 2.8.5)
+- [Bcrypt.js](https://www.npmjs.com/package/bcryptjs)
+- [Cookie-parser](https://www.npmjs.com/package/cookie-parser)
+- [Zod](https://www.npmjs.com/package/zod)
+
 
 
 ## Instalación y Configuración
